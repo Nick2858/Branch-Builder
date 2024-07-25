@@ -173,7 +173,7 @@ def clean():
     """
     
     
-    print("Cleaning Branches")
+    print("--------CLEANING BRANCHES--------")
     
     defSize = len(touchingBranches)
     iter = 0
@@ -247,7 +247,7 @@ def clean():
 #
 #---------------------------------------------------
 
-max_gen = 2
+max_gen = 0 #set to integer number of generations 
 
 
 #--------------------IMPORTANT----------------------
@@ -256,7 +256,7 @@ max_gen = 2
 #
 #---------------------------------------------------
 
-path = "C:\\Users\\nichk\\3DObjConverter\.venv\TreeData2.csv"
+path = "TreeData.csv"
 
 #initialize variables for storing list of branch objects (branchList),
 #and dictionary of objects at nodes (touchingBranches)
@@ -264,7 +264,7 @@ branchList = []
 touchingBranches = {}
 
 
-print("Reading csv file")
+print("\n"*5 + "--------READING CSV FILE--------")
 
 
 #read the csv file
@@ -272,9 +272,15 @@ with open(path, "r", newline='') as data:
     info = csv.reader(data)
     header = next(info)
 
-    print("Making branches")
+    print("--------MAKING BRANCHES--------")
+    #ger number of rows/branches
+    
+    branchIter = 0
+        
     #each row in (info) list stores data for each edge
     for row in info:
+        
+        
         rowData = []
         
         #convert row data to float type
@@ -283,6 +289,10 @@ with open(path, "r", newline='') as data:
             
         #check if branch is in generation range
         if rowData[3] <= max_gen:
+            
+            branchIter +=1
+            print(f"Making Branch:{branchIter}")
+            
             #build touchingBranch dictionary, ignoring first node which is the inflow.
             if rowData[1] != 0:
                 if rowData[1] not in touchingBranches:
@@ -302,14 +312,14 @@ with open(path, "r", newline='') as data:
 
             #append branch object to branch list for use later.
             branchList.append(b)
-
+        
 #Use clean function to remove overlap in branch objects
 clean()
 
 #Hollow out each branch (cylinder and sphere) and unite the cylinder and sphere, rename branch to include
 #branch info in name (branch id, generation number and lobe number)
 
-print("Finalizing Branches")
+print("--------FINALIZING BRANCHES--------")
 branchNum = len(branchList)
 branchIter = 1
 for branch in branchList:
