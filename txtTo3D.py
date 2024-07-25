@@ -10,7 +10,7 @@ import pandas as pd
 #
 #---------------------------------------------------
 
-path = 'C:\\Users\\nichk\\3DObjConverter\\Tree file.txt'
+path = '/Treefile.txt'
 
 #Open txt file and save data to info variable
 with open(path, 'r') as data:
