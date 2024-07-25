@@ -247,7 +247,7 @@ max_gen = 3
 #
 # ---------------------------------------------------
 
-path = "C:\\Users\\nichk\\3DObjConverter\.venv\TreeData2.csv"
+path = "TreeData.csv"
 
 # initialize variables for storing list of branch objects (branchList),
 # and dictionary of objects at nodes (touchingBranches)
