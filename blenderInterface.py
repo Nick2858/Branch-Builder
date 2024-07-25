@@ -314,7 +314,8 @@ print("Finalizing Branches")
 branchNum = len(branchList)
 branchIter = 1
 for branch in branchList:
-    print(f"Branch:{branchIter}/{branchNum}")
+    print(f"Hollowing Branch:{branchIter}/{branchNum}")
     branch.hollow()
+    print(f"Finalizing Branch:{branchIter}/{branchNum}")
     branch.finalize()
     branchIter += 1
