@@ -303,7 +303,6 @@ with open(path, "r", newline='') as data:
             #append branch object to branch list for use later.
             branchList.append(b)
 
-print("Cleaning branches")
 #Use clean function to remove overlap in branch objects
 clean()
 
