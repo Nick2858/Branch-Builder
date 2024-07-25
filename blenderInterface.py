@@ -247,7 +247,7 @@ def clean():
 #
 #---------------------------------------------------
 
-max_gen = 0 #set to integer number of generations 
+max_gen = 2
 
 
 #--------------------IMPORTANT----------------------
@@ -256,7 +256,7 @@ max_gen = 0 #set to integer number of generations
 #
 #---------------------------------------------------
 
-path = "TreeData.csv"
+path = "C:\\Users\\nichk\\3DObjConverter\.venv\TreeData2.csv"
 
 #initialize variables for storing list of branch objects (branchList),
 #and dictionary of objects at nodes (touchingBranches)
@@ -264,7 +264,7 @@ branchList = []
 touchingBranches = {}
 
 
-print("\n"*5 + "--------READING CSV FILE--------")
+print("--------READING CSV FILE--------")
 
 
 #read the csv file
@@ -273,13 +273,12 @@ with open(path, "r", newline='') as data:
     header = next(info)
 
     print("--------MAKING BRANCHES--------")
-    #ger number of rows/branches
+    #each row in (info) list stores data for each edge
     
     branchIter = 0
-        
-    #each row in (info) list stores data for each edge
     for row in info:
-        
+        branchIter +=1
+        print(f"Making Branch:{branchIter}")
         
         rowData = []
         
@@ -289,10 +288,6 @@ with open(path, "r", newline='') as data:
             
         #check if branch is in generation range
         if rowData[3] <= max_gen:
-            
-            branchIter +=1
-            print(f"Making Branch:{branchIter}")
-            
             #build touchingBranch dictionary, ignoring first node which is the inflow.
             if rowData[1] != 0:
                 if rowData[1] not in touchingBranches:
