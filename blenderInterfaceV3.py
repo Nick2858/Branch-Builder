@@ -80,63 +80,7 @@ class Branch:
         self.sphere_name = self.sphere.name
         
         
-            
-    
-    def hollow(self):
-        """
-        This function is used to hollow out the branch object into tubes to use in CFD.
-        """
-        
-
-        
-        #Build replica cylinder with smaller radius assigned to self.hollow_branch
-        bpy.ops.mesh.primitive_cylinder_add(enter_editmode=False, align='WORLD', location=(self.location),
-                                            radius=self.radius - self.hollow_rad, depth=self.length * 2, rotation=self.euler)
-        self.hollow_branch = bpy.context.active_object
-
-        #carve the hollow_branch object out of the cylinder using the carver function
-        carver(self.cylinder, self.hollow_branch)
-
-        #Build replica sphere with smaller radius assigned to self.hollow_sphere
-        bpy.ops.mesh.primitive_uv_sphere_add(radius=self.radius - self.hollow_rad, enter_editmode=False, align='WORLD',
-                                             location=(self.xyz2), scale=(1, 1, 1))
-        self.hollow_sphere = bpy.context.active_object
-
-        #carve the hollow_sphere object out of the sphere using the carver function
-        carver(self.sphere, self.hollow_sphere)
-
-    def finalize(self):
-        """
-        This function is used to finalize the branch.
-        First it unites the branch with it's child sphere using the boolean union modifier in blender.
-        Then it renames the branch to include information about the branch id, generation and lob numbers.
-        """
-
-        #Unite cylinder with sphere using boolean union
-        #must use exact solver and use_self solver option to properly unite objects.
-        bpy.context.view_layer.objects.active = self.cylinder
-        bool_one = self.cylinder.modifiers.new(type="BOOLEAN", name="bool 1")
-        bool_one.object = self.sphere
-        bool_one.operation = "UNION"
-        bool_one.solver = "EXACT"
-        bool_one.use_self = True
-
-        #Convert mesh to mesh to apply modifiers (this is a little hack to apply modifiers)
-        bpy.ops.object.select_all(action="DESELECT")
-        self.cylinder.select_set(True)
-        bpy.ops.object.convert(target='MESH', keep_original=False)
-
-        #Rename the branch object (saved to self.cylinder) to include branch id, generation and lob info.
-        self.cylinder.name = f"B{int(self.id)}G{int(self.generation)}L{int(self.lobe)}"
-        
-        self.name = self.cylinder.name
-
-        
-        #Use deleter function to delete sphere object which is duplicated after union.
-        deleter(self.sphere)
-                
     def clean(self):
-        
         topConnection = ""
         sideConnection = ""
         bottomConnections = []
@@ -165,8 +109,58 @@ class Branch:
             bottomConnection.make_branch()
             carver(self.cylinder, bottomConnection.cylinder,False)
             carver(self.sphere, bottomConnection.cylinder)
+            
+    def hollow(self):
+        """
+        This function is used to hollow out the branch object into tubes to use in CFD.
+        """
         
-        carver(self.sphere, self.cylinder, False)
+
+        
+        #Build replica cylinder with smaller radius assigned to self.hollow_branch
+        bpy.ops.mesh.primitive_cylinder_add(enter_editmode=False, align='WORLD', location=(self.location),
+                                            radius=self.radius - self.hollow_rad, depth=self.length * 2, rotation=self.euler)
+        self.hollow_branch = bpy.context.active_object
+
+        #carve the hollow_branch object out of the cylinder using the carver function
+        carver(self.cylinder, self.hollow_branch,False)
+        
+        self.hollow_branch.dimensions[2] = self.length
+        carver(self.sphere, self.hollow_branch)
+        
+        
+        #Build replica sphere with smaller radius assigned to self.hollow_sphere
+        bpy.ops.mesh.primitive_uv_sphere_add(radius=self.radius - self.hollow_rad, enter_editmode=False, align='WORLD',
+                                             location=(self.xyz2), scale=(1, 1, 1))
+        self.hollow_sphere = bpy.context.active_object
+
+        #carve the hollow_sphere object out of the sphere using the carver function
+        carver(self.sphere, self.hollow_sphere)
+        
+
+    def finalize(self):
+        """
+        This function is used to finalize the branch.
+        First it unites the branch with it's child sphere using the boolean union modifier in blender.
+        Then it renames the branch to include information about the branch id, generation and lob numbers.
+        """
+
+        #Unite cylinder with sphere using boolean union
+        #must use exact solver and use_self solver option to properly unite objects.
+        bpy.ops.object.select_all(action='DESELECT') 
+        bpy.context.view_layer.objects.active = self.cylinder
+        self.cylinder.select_set(True)
+        self.sphere.select_set(True)
+        bpy.ops.object.join()
+        bpy.ops.object.select_all(action='DESELECT') 
+                
+        #Rename the branch object (saved to self.cylinder) to include branch id, generation and lob info.
+        self.cylinder.name = f"B{int(self.id)}G{int(self.generation)}L{int(self.lobe)}"
+        
+        self.name = self.cylinder.name
+
+                        
+   
         
     def export(self):
         bpy.ops.object.select_all(action='DESELECT')  
@@ -245,7 +239,7 @@ def deleter(obj):
 #
 #---------------------------------------------------
 
-max_gen = 20
+max_gen = 2
 
 
 #--------------------IMPORTANT----------------------
@@ -254,7 +248,7 @@ max_gen = 20
 #
 #---------------------------------------------------
 
-path = "\\TreeData.csv"
+path = "F:\\Research at UofT\\ImageStacks\\Nicholas\\HumanAirwayModel\\TreeData.csv"
 
 #--------------------IMPORTANT----------------------
 #
@@ -263,7 +257,7 @@ path = "\\TreeData.csv"
 #---------------------------------------------------
 
 
-stl_path = f"\\HumanAirwayModel\\Branches"
+stl_path = f"F:\\Research at UofT\\ImageStacks\\Nicholas\\HumanAirwayModel\\AirwayModel"
 
 #initialize variables for storing list of branch objects (branchList),
 #and dictionary of objects at nodes (touchingBranches)
