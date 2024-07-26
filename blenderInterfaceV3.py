@@ -173,8 +173,7 @@ class Branch:
         
         self.cylinder.select_set(True)
                 
-        stl_path = f"C:\\Users\\nichk\\Documents\\HumanAirwayModel\\GenExtract\\{self.name}.stl"
-        bpy.ops.wm.stl_export(filepath=stl_path, export_selected_objects=True)
+        bpy.ops.wm.stl_export(filepath=f"{stl_path}\\{self.name}.stl", export_selected_objects=True)
         
         bpy.ops.object.select_all(action='DESELECT')
         
@@ -246,7 +245,7 @@ def deleter(obj):
 #
 #---------------------------------------------------
 
-max_gen = 5
+max_gen = 20
 
 
 #--------------------IMPORTANT----------------------
@@ -255,7 +254,16 @@ max_gen = 5
 #
 #---------------------------------------------------
 
-path = "C:\\Users\\nichk\\3DObjConverter\.venv\TreeData.csv"
+path = "\\TreeData.csv"
+
+#--------------------IMPORTANT----------------------
+#
+#set STL file export location
+#
+#---------------------------------------------------
+
+
+stl_path = f"\\HumanAirwayModel\\Branches"
 
 #initialize variables for storing list of branch objects (branchList),
 #and dictionary of objects at nodes (touchingBranches)
