@@ -215,7 +215,7 @@ def build_gens():
     for b in removeList:
         b.cylinder.select_set(True)
             
-    stl_path = f"C:\\Users\\nichk\\Documents\\HumanAirwayModel\\GenExtract\\gen{removeGen}.stl"
+    stl_path = f"C:\\Users\\nichk\\Documents\\HumanAirwayModel\\GenExtract\\gen{int(removeGen)}.stl"
     bpy.ops.wm.stl_export(filepath=stl_path, export_selected_objects=True)
     
     bpy.ops.object.select_all(action='DESELECT')
