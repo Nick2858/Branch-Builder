@@ -86,17 +86,19 @@ class Branch:
         """
         This function is used to hollow out the branch object into tubes to use in CFD.
         """
-
+        
+        hollow_rad = 0.05
+        
         #Build replica cylinder with smaller radius assigned to self.hollow_branch
         bpy.ops.mesh.primitive_cylinder_add(enter_editmode=False, align='WORLD', location=(self.location),
-                                            radius=self.radius - 0.1, depth=self.length * 2, rotation=self.euler)
+                                            radius=self.radius - hollow_rad, depth=self.length * 2, rotation=self.euler)
         self.hollow_branch = bpy.context.active_object
 
         #carve the hollow_branch object out of the cylinder using the carver function
         carver(self.cylinder, self.hollow_branch)
 
         #Build replica sphere with smaller radius assigned to self.hollow_sphere
-        bpy.ops.mesh.primitive_uv_sphere_add(radius=self.radius - 0.1, enter_editmode=False, align='WORLD',
+        bpy.ops.mesh.primitive_uv_sphere_add(radius=self.radius - hollow_rad, enter_editmode=False, align='WORLD',
                                              location=(self.xyz2), scale=(1, 1, 1))
         self.hollow_sphere = bpy.context.active_object
 
@@ -196,10 +198,17 @@ def build_gens():
     
     print(f"Finalizing Branches of Gen:{removeGen}")
     
+    numBranches = len(removeList)
+    iter = 1
     for b in removeList:
+        print(f"Hollowing Branch:{iter}/{numBranches}")
         b.hollow()
+        print(f"Finalizing Branch:{iter}/{numBranches}")
         b.finalize()
-
+        iter += 1
+        
+        
+        
     bpy.ops.object.select_all(action='DESELECT')  
     print(f"Exporting Gen:{removeGen}")
     
@@ -233,68 +242,73 @@ def clean():
     iter = 0
     #Iterate over each node (represented as sphere) which contains list of branches connected to it.
     for sphere, bList in touchingBranches.items():
-        if sphere not in removeNodes:
-            iter += 1
-            print(f"Iteration:{iter}/{defSize}")
-            #rename sphere and branches to their object names in blender.
-            sphere = f"s:{sphere}"
-            branches = []
-            for branch in bList:
-                branches.append(f"b:{branch}")
+        
+        iter += 1
+        print(f"Iteration:{iter}/{defSize}")
+        #rename sphere and branches to their object names in blender.
+        branches = []
+        for b in branchList:
+            if b.succID == sphere:
+                branches.append(b.cylinder_name)
+                mainB = b.cylinder_name
+        sphere = f"s:{sphere}"
+        
+        for branch in bList:
+            branches.append(f"b:{branch}")
 
-            #append sphere to branches list so all objects at the node are included in the list.
-            branches.append(sphere)
-            branches = branches[::-1]
+        #append sphere to branches list so all objects at the node are included in the list.
+        branches.append(sphere)
+        
 
-            #Nested for loop to find the object1 for get carved and object 2 for carving with.
-            for name1 in branches:
-                for name2 in branches:
+        #Nested for loop to find the object1 for get carved and object 2 for carving with.
+        for name1 in branches:
+            for name2 in branches:
 
-                    #make sure that objects different for carving.
-                    if name2 != name1:
+                #make sure that objects different for carving.
+                if name2 != name1 or (mainB == name1 and "s" in name2) or (mainB in name2 and "s" in name1):
 
-                        #Find object 2 in blender object data.
-                        for obj in bpy.data.objects:
-                            if obj.name == name2:
+                    #Find object 2 in blender object data.
+                    for obj in bpy.data.objects:
+                        if obj.name == name2:
 
-                                #check if object is a sphere
-                                if "s" in name2:
+                            #check if object is a sphere
+                            if "s" in name2:
 
-                                    #get sphere data from it's parent branch using self.sphere.name
-                                    for b in branchList:
-                                        if b.sphere_name == name2:
-                                            shape = b
-                                            break
+                                #get sphere data from it's parent branch using self.sphere.name
+                                for b in branchList:
+                                    if b.sphere_name == name2:
+                                        shape = b
+                                        break
 
-                                    #build replica sphere using sphere parameters from (shape) object clone
-                                    bpy.ops.mesh.primitive_uv_sphere_add(radius=shape.radius, enter_editmode=False,
-                                                                         align='WORLD',
-                                                                         location=(shape.xyz2), scale=(1, 1, 1))
+                                #build replica sphere using sphere parameters from (shape) object clone
+                                bpy.ops.mesh.primitive_uv_sphere_add(radius=shape.radius, enter_editmode=False,
+                                                                     align='WORLD',
+                                                                     location=(shape.xyz2), scale=(1, 1, 1))
 
-                                #otherwise object is a cylinder
-                                else:
-                                    for b in branchList:
-                                        if b.cylinder_name == name2:
-                                            shape = b
-                                            break
+                            #otherwise object is a cylinder
+                            else:
+                                for b in branchList:
+                                    if b.cylinder_name == name2:
+                                        shape = b
+                                        break
 
-                                    #build replica cylinder using cylinder parameters from (shape) object clone.
-                                    bpy.ops.mesh.primitive_cylinder_add(enter_editmode=False, align='WORLD',
-                                                                        location=(shape.location),
-                                                                        radius=shape.radius, depth=shape.length,
-                                                                        rotation=shape.euler)
-                                #asign replica object to obj2
-                                obj2 = bpy.context.active_object
-                                break
+                                #build replica cylinder using cylinder parameters from (shape) object clone.
+                                bpy.ops.mesh.primitive_cylinder_add(enter_editmode=False, align='WORLD',
+                                                                    location=(shape.location),
+                                                                    radius=shape.radius, depth=shape.length,
+                                                                    rotation=shape.euler)
+                            #asign replica object to obj2
+                            obj2 = bpy.context.active_object
+                            break
 
-                        #get object 1
-                        for obj in bpy.data.objects:
-                            if obj.name == name1:
-                                obj1 = obj
-                                obj1.select_set(True)
+                    #get object 1
+                    for obj in bpy.data.objects:
+                        if obj.name == name1:
+                            obj1 = obj
+                            obj1.select_set(True)
 
-                        #carve object 1 using object 2 (replica object)
-                        carver(obj1, obj2)
+                    #carve object 1 using object 2 (replica object)
+                    carver(obj1, obj2)
 
 
 #--------------------IMPORTANT----------------------
@@ -303,7 +317,7 @@ def clean():
 #
 #---------------------------------------------------
 
-max_gen = 5
+max_gen = 3
 
 
 #--------------------IMPORTANT----------------------
