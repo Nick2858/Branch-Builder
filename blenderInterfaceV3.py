@@ -3,6 +3,8 @@ import math
 import csv
 import math
 import mathutils
+import time
+import datetime
 
 
 class Branch:
@@ -45,7 +47,12 @@ class Branch:
         #calculate radius of cylinder from volume and length
         self.radius = math.sqrt(self.volume / (self.length * math.pi))
         
-        self.built = False
+        #set rotation of cylinder using mathutils vector functionality to convert vec to angle
+        up_axis = mathutils.Vector([0.0, 0.0, 1.0])
+        angle = self.vector.angle(up_axis, 0)
+        axis = up_axis.cross(self.vector)
+        self.euler = mathutils.Matrix.Rotation(angle, 4, axis).to_euler()
+        
         
         self.hollow_rad = 0.1
 
@@ -53,26 +60,19 @@ class Branch:
 
         #create a cylinder object in blender using initialized parameters
         bpy.ops.mesh.primitive_cylinder_add(enter_editmode=False, align='WORLD', location=(self.location),
-                                            radius=self.radius, depth=self.length)
+                                            radius=self.radius, depth=self.length, rotation= self.euler)
 
         #assign cylinder object to Branch object and name it based on it's branch (b) id.
         self.cylinder = bpy.context.active_object
         self.cylinder.name = f"b:{self.id}"
         self.cylinder_name = self.cylinder.name
-
-        #set rotation of cylinder using mathutils vector functionality to convert vec to angle
-        up_axis = mathutils.Vector([0.0, 0.0, 1.0])
-        angle = self.vector.angle(up_axis, 0)
-        axis = up_axis.cross(self.vector)
-        self.euler = mathutils.Matrix.Rotation(angle, 4, axis).to_euler()
-        self.cylinder.rotation_euler = self.euler
-    
+        
     
     def make_sphere(self):
         #create sphere object in blender using initialized parameters
         #each branch is the parent to the sphere/node at it's successive node location
         bpy.ops.mesh.primitive_uv_sphere_add(radius=self.radius, enter_editmode=False, align='WORLD',
-                                             location=(self.xyz2), scale=(1, 1, 1))
+                                             location=(self.xyz2), scale=(1, 1, 1), rotation=self.euler)
 
         #assign sphere object to Branch object and name it based on it's node (s - for sphere) id.
         self.sphere = bpy.context.active_object
@@ -125,13 +125,13 @@ class Branch:
         #carve the hollow_branch object out of the cylinder using the carver function
         carver(self.cylinder, self.hollow_branch,False)
         
-        self.hollow_branch.dimensions[2] = self.length
+        self.hollow_branch.dimensions = (self.radius, self.radius, self.length)
         carver(self.sphere, self.hollow_branch)
         
         
         #Build replica sphere with smaller radius assigned to self.hollow_sphere
         bpy.ops.mesh.primitive_uv_sphere_add(radius=self.radius - self.hollow_rad, enter_editmode=False, align='WORLD',
-                                             location=(self.xyz2), scale=(1, 1, 1))
+                                             location=(self.xyz2), scale=(1, 1, 1), rotation = self.euler)
         self.hollow_sphere = bpy.context.active_object
 
         #carve the hollow_sphere object out of the sphere using the carver function
@@ -167,7 +167,7 @@ class Branch:
         
         self.cylinder.select_set(True)
                 
-        bpy.ops.wm.stl_export(filepath=f"{stl_path}\\{self.name}.stl", export_selected_objects=True)
+        bpy.ops.wm.stl_export(filepath=f"{stl_path}\\{self.name}.stl")
         
         bpy.ops.object.select_all(action='DESELECT')
         
@@ -233,13 +233,24 @@ def deleter(obj):
     bpy.ops.object.select_all(action='DESELECT')
 
 
+
+
+
+start = time.time()
+
+
+
+
+
+
+
 #--------------------IMPORTANT----------------------
 #
 #set maximum generation number to create in blender
 #
 #---------------------------------------------------
 
-max_gen = 2
+max_gen = 5
 
 
 #--------------------IMPORTANT----------------------
@@ -248,7 +259,7 @@ max_gen = 2
 #
 #---------------------------------------------------
 
-path = "F:\\Research at UofT\\ImageStacks\\Nicholas\\HumanAirwayModel\\TreeData.csv"
+path = "\\TreeData.csv"
 
 #--------------------IMPORTANT----------------------
 #
@@ -257,7 +268,7 @@ path = "F:\\Research at UofT\\ImageStacks\\Nicholas\\HumanAirwayModel\\TreeData.
 #---------------------------------------------------
 
 
-stl_path = f"F:\\Research at UofT\\ImageStacks\\Nicholas\\HumanAirwayModel\\AirwayModel"
+stl_path = "\\AirwayModel"
 
 #initialize variables for storing list of branch objects (branchList),
 #and dictionary of objects at nodes (touchingBranches)
@@ -312,5 +323,7 @@ for b in branchList:
     b.build_branch()
     iter += 1
     
+end = time.time()
 
-print("COMPLETED")
+stopwatch = datetime.timedelta(seconds = (end-start))
+print(f"COMPLETED IN: {stopwatch}")
