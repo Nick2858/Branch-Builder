@@ -172,11 +172,17 @@ class Branch:
    
         
     def export(self):
+        
+        branchPath = f"{stl_path}\\BRANCH"
+    
+        if not os.path.exists(branchPath):
+            os.makedirs(branchPath)
+            
         bpy.ops.object.select_all(action='DESELECT')  
         
         self.cylinder.select_set(True)
                 
-        bpy.ops.wm.stl_export(filepath=f"{stl_path}\\{self.name}.stl")
+        bpy.ops.wm.stl_export(filepath=f"{branchPath}\\{self.name}.stl")
         
         bpy.ops.object.select_all(action='DESELECT')
         
