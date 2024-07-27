@@ -5,7 +5,16 @@ import math
 import mathutils
 import time
 import datetime
+import os
 
+
+class BranchFileInfo:
+    def __init__(self, name):
+        print(name)
+        self.name = name.split(".")[0]
+        self.id = int(((self.name.split("G"))[0]).replace("B", ""))
+        self.gen = int((self.name.split("G")[1]).split("L")[0])
+        self.lobe = int(self.name.split("L")[-1])
 
 class Branch:
     """
@@ -125,7 +134,7 @@ class Branch:
         #carve the hollow_branch object out of the cylinder using the carver function
         carver(self.cylinder, self.hollow_branch,False)
         
-        self.hollow_branch.dimensions = (self.radius, self.radius, self.length)
+        self.hollow_branch.dimensions = (2* self.radius, 2*self.radius, self.length)
         carver(self.sphere, self.hollow_branch)
         
         
@@ -218,6 +227,67 @@ def carver(obj1, obj2, delete=True):
     if delete:
         deleter(obj2)
 
+def groupGen(bList, genList):
+    
+    print(f"GROUPING BY GENERATION")
+    genPath = f"{stl_path}\\GEN"
+    
+    if not os.path.exists(genPath):
+        os.makedirs(genPath)
+        
+    for gen in genList:
+        
+        print(f'Building Gen:{gen}')
+        for b in bList:
+            if b.gen == gen:
+                bpy.ops.wm.stl_import(filepath=f"{stl_path}\\{b.name}.stl")
+            
+                bpy.ops.object.select_all(action='SELECT') 
+                bpy.ops.object.join()
+                bpy.ops.object.select_all(action='DESELECT')
+                
+        bpy.ops.wm.stl_export(filepath=f"{genPath}\\GEN{gen}.stl")
+        
+        delete_all()
+        
+def groupLobe(bList, lobeList):
+    
+    
+    print(f"GROUPING BY LOBE")
+    lobePath = f"{stl_path}\\LOBE"
+    
+    if not os.path.exists(lobePath):
+        os.makedirs(lobePath)
+        
+    for lobe in lobeList:
+        
+        print(f'Building Lobe:{lobe}')
+        for b in bList:
+            if b.lobe == lobe:
+                bpy.ops.wm.stl_import(filepath=f"{stl_path}\\{b.name}.stl")
+            
+                bpy.ops.object.select_all(action='SELECT') 
+                bpy.ops.object.join()
+                bpy.ops.object.select_all(action='DESELECT')
+                
+        bpy.ops.wm.stl_export(filepath=f"{lobePath}\\LOBE{lobe}.stl")
+        
+        delete_all()
+
+        
+        
+def delete_all():
+    """
+    (Branch object) -> None
+
+    This function is used to delete the object that is passed to it in blender.
+    """
+
+    #Deselect all objects, then select the object you wish to delete, delete it and then deselect all objects.
+    bpy.ops.object.select_all(action='SELECT')
+    bpy.ops.object.delete()
+    bpy.ops.object.select_all(action='DESELECT')
+
 
 def deleter(obj):
     """
@@ -232,13 +302,28 @@ def deleter(obj):
     bpy.ops.object.delete()
     bpy.ops.object.select_all(action='DESELECT')
 
+def groupData():
+    
+    print(f"--------GROUPING BRANGES--------")
+    
+    branches = os.listdir(stl_path)
 
-
+    bList = []
+    genList = set()
+    lobeList = set()
+    
+    for branch in branches:
+        if ".stl" in branch:
+            b = BranchFileInfo(branch)
+            bList.append(b)
+            genList.add(b.gen)
+            lobeList.add(b.lobe)    
+            
+    groupGen(bList, genList)
+    groupLobe(bList,lobeList)
 
 
 start = time.time()
-
-
 
 
 
@@ -250,7 +335,7 @@ start = time.time()
 #
 #---------------------------------------------------
 
-max_gen = 5
+max_gen = 2
 
 
 #--------------------IMPORTANT----------------------
@@ -268,7 +353,7 @@ path = "\\TreeData.csv"
 #---------------------------------------------------
 
 
-stl_path = "\\AirwayModel"
+stl_path = f"\\AirwayModel"
 
 #initialize variables for storing list of branch objects (branchList),
 #and dictionary of objects at nodes (touchingBranches)
@@ -326,4 +411,14 @@ for b in branchList:
 end = time.time()
 
 stopwatch = datetime.timedelta(seconds = (end-start))
-print(f"COMPLETED IN: {stopwatch}")
+print(f"\n\nCOMPLETED BUILDING {num} BRANCHES IN: {stopwatch}\n\n")
+
+
+groupData()
+
+
+end2 = time.time()
+
+stopwatch = datetime.timedelta(seconds = (end2-start))
+print(f"\n\nCODE FINISHED IN: {stopwatch}\n\n")
+
