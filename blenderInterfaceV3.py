@@ -479,8 +479,8 @@ stopwatch2 = datetime.timedelta(seconds=(end2 - start))
 stopwatch3 = datetime.timedelta(seconds=(end2 - end))
 
 #print time to complete building branch files and time to export files
-print(f"\n\nCOMPLETED BUILDING {num} BRANCHES IN: {stopwatch}\n\n")
-print(f"\n\nCOMPLETED EXPORTING {num} BRANCHES IN: {stopwatch3}\n\n")
+print(f"\n\nCOMPLETED BUILDING {num} BRANCHES IN: {stopwatch}")
+print(f"COMPLETED EXPORTING {num} BRANCHES IN: {stopwatch3}")
 
 #print full code runtime
-print(f"\n\nCODE FINISHED IN: {stopwatch2}\n\n")
+print(f"CODE FINISHED IN: {stopwatch2}\n\n")
