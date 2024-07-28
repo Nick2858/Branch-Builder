@@ -8,6 +8,6 @@ This repository contains the code for a blender script that creates hollow branc
   <p>Rendering of 17 Generations Digital Reference Model of the Human Bronchial Tree from Schmidt et al 2004</p>
 </div>
 
-Using airway data from Schmidt et al 2004 (accessible here: https://simtk.org/projects/lungsim) we were able to extract data from the `Demo/Treefile.txt` into the CSV file `Demo/TreeData.csv` using the custom `Demo\TXTtoCSV.py` script. From there, the CSV file data could be imported into the `blenderInterface.py` file running in blender's script section to build the airway branching network.
+Using airway data from Schmidt et al 2004 (accessible here: https://simtk.org/projects/lungsim) we were able to extract data from the `Demo/Treefile.txt` into the CSV file `Demo/TreeData.csv` with the custom `Demo\TXTtoCSV.py` script. From there, the CSV file data could be imported into the `blenderInterface.py` file running in blender's script section to build the airway branching network.
 
 
