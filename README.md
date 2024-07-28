@@ -8,4 +8,6 @@ This repository contains the code for a blender script that creates hollow branc
   <p>A digital reference model of the human bronchial tree from Schmidt et al 2004</p>
 </div>
 
+Using airway data from Schmidt et al 2004 (accessible here: https://simtk.org/projects/lungsim) we were able to extract data from the `Demo/Treefile.txt` into the csv file `Demo/TreeData.csv` using the custom `Demo\TXTtoCSV.py` script. 
+
 
