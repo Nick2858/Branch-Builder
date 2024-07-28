@@ -1,3 +1,3 @@
 Branch data from https://simtk.org/projects/lungsim
 
-[Figure1](Demo/HumainAirway17Gen.stl)
+[Figure1](Demo/HumainAirwayTree17Gen.stl)
