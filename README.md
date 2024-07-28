@@ -1,6 +1,6 @@
 # BRANCH BUILDER
 
-This repository contains the code for a blender script that creates hollow branching network objects for use as geometries in CFD. It works by reading a CSV file of the branch data. Each branch is represented by a row in the CSV file. The model approximates branches as straight, hollow, and cylindrical with hollow spheres at each bifurcation point and the ends of terminal branches. 
+This repository contains the code for a blender script that creates hollow branching network objects for use as geometries in CFD. It works by reading a CSV file of the branch data. Each branch is represented by a row in the CSV file. The model approximates branches as straight, hollow, cylinders with hollow spheres at each bifurcation point and the ends of terminal branches. 
 
 <div align="center" margin-top = "">
   <h2> Demo Airway Model</h2>
