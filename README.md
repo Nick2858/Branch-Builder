@@ -33,11 +33,15 @@ After configuring these settings, the program can be run in Blender.
 
 ### Step 5: Check Completion
 Once the program has finished running, a completion message will be printed in the console. An example is shown below:
+
 <img src="Images/ConsoleMessage.png" alt="drawing" width="400"/>
 
-The exported files will be accessible in the `stl_path` directory. They will appear like this:
-<img src="Images/ConsoleMessage.png" alt="drawing" width="400"/>
+The exported files will be accessible in the `stl_path` directory. The program creates a GEN and LOBE folder as well as a STL file for each branch with the name convention:
 
+B(branch id)G(generation number)L(lobe number).stl
 
+<img src="Images/SampleCodeOutput.png" alt="drawing" width="400"/>
+
+The GEN and LOBE folders contain STL files grouped by generation and lobe respectively. They will appear like this:
 
 
