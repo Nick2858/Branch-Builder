@@ -5,7 +5,7 @@ This repository contains the code for a Blender script that creates hollow branc
 ## Demo Airway Model
 <div align="center" margin-top = "">
   <img src="Images/buildGenAnimation.gif" alt="drawing" width="500"/>
-  <p>Rendering of 17 Generation Digital Reference Model of the Human Bronchial Tree from Schmidt et al 2004</p>
+  <p>Rendering of 17 Generation Model of the Human Bronchial Tree from Schmidt et al 2004</p>
 </div>
 
 Using airway data from Schmidt et al 2004 (accessible here: https://simtk.org/projects/lungsim) we were able to extract data from the `Demo/Treefile.txt` into the CSV file `Demo/TreeData.csv` with the custom `Demo\TXTtoCSV.py` script. From there, the CSV file data could be imported into the `blenderInterface.py` file running in Blender's **scripting** section to build the airway branching network.
@@ -27,7 +27,10 @@ Before running the Python script, some settings must be adjusted. These settings
 
 <img src="Images/ChangeSettings.png" alt="drawing" width="400"/>
 
-After configuring these settings, the program can be run in Blender here:
+## Step 4
+After configuring these settings, the program can be run in Blender. 
+
+Once the program has finished running, a completion message will be printed in the console.
 
 
 
