@@ -32,7 +32,11 @@ After configuring these settings, the program can be run in Blender.
 <img src="Images/runScript.png" alt="drawing" width="800"/>
 
 ### Step 5: Check Completion
-Once the program has finished running, a completion message will be printed in the console.
+Once the program has finished running, a completion message will be printed in the console. An example is shown below:
+<img src="Images/ConsoleMessage.png" alt="drawing" width="400"/>
+
+The exported files will be accessible in the `stl_path` directory. They will appear like this:
+<img src="Images/ConsoleMessage.png" alt="drawing" width="400"/>
 
 
 
