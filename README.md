@@ -41,7 +41,7 @@ The first step in setting up this program to build a branch network is downloadi
 
 <img src="Images/OpenScript.png" alt="drawing" width="800"/>
 
-All default objects in the collection should be deleted before running the program. These objects are crossed out in the image below.
+All default objects in the collection should be deleted before running the program. These objects are crossed out in the above image.
 
 ### Step 3: Toggle On System Console
 The next step is to toggle on the System Console in Blender. This will allow you to monitor the program's progress, which will print information about what steps it's on while running. Blender does not respond when scripts are running, this is the only way to monitor whether the program is working.
