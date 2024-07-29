@@ -1,8 +1,7 @@
 import networkx as nx
-import pandas
 import pandas as pd
 
-
+#This script was used to convert the data in Treefile.txt into a CSV file which could be read by blenderInterface.py
 
 #--------------------IMPORTANT----------------------
 #
