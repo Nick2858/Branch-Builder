@@ -44,4 +44,10 @@ B(branch id)G(generation number)L(lobe number).stl
 
 The GEN and LOBE folders contain STL files grouped by generation and lobe respectively. They will appear like this:
 
+**GEN FOLDER**
 
+<img src="Images/GenFiles.png" alt="drawing" width="400"/>
+
+**LOBE FOLDER**
+
+<img src="Images/LobeFiles.png" alt="drawing" width="400"/>
