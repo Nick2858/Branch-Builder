@@ -34,7 +34,7 @@ The branches for the CSV File should be as follows, branch data for each branch 
 Branch ID | Parent Node ID | Child Node ID | Generation Number | Length | Volume | Lobe | Segment | X1 | Y1 | Z1 | X2 | Y2 | Z2  
 ----------|-----------|----------|-------------------|--------|--------|------|---------|----|----|----|----|----|----
 
-Where X1, Y1, Z1 are the coordinates of the parent node and X2, Y2, Z2 are the coordinates of the child node. These nodes make up the end points of the cylinder/branch. The sphere is created at the location of the child node.
+X1, Y1, Z1 are the coordinates of the parent node, and X2, Y2, Z2 are the coordinates of the child node. These nodes make up the endpoints of the cylinder/branch. The sphere is created at the location of the child node. If your data does not have segment information, you can give each branch a 0 in the segment column. The same goes for Generation and Lobe however the program will not properly group the objects into their respective generations and lobes if not provided with the proper information.
 
 ### Step 2: Open Script in Blender
 The first step in setting up this program to build a branch network is downloading the `blenderInterface.py` code. Once it's been downloaded, it can be opened in Blender. Go to **Scripting** and press **Open**. This will allow you to open the `blenderInterface.py` script in Blender. 
