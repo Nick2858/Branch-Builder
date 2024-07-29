@@ -13,8 +13,11 @@ Using airway data from Schmidt et al 2004 (accessible here: https://simtk.org/pr
 ## Setup
 
 ### Step 1: Open Script in Blender
-The first step in setting up this program to build a branch network is downloading the `blenderInterface.py` code. Once it's been downloaded, it can be opened in Blender.
+The first step in setting up this program to build a branch network is downloading the `blenderInterface.py` code. Once it's been downloaded, it can be opened in Blender. Go to **Scripting** and press **Open**. This will allow you to open the `blenderInterface.py` script in Blender. 
 
+<img src="Images/OpenScript.png" alt="drawing" width="800"/>
+
+All default objects in the collection should be deleted before running the program. These objects are crossed out in the image below.
 
 ### Step 2: Toggle On System Console
 The next step is to toggle on the System Console in Blender. This will allow you to monitor the program's progress, which will print information about what steps it's on while running. Blender does not respond when scripts are running, this is the only way to monitor whether the program is working.
