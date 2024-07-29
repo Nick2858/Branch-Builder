@@ -412,7 +412,6 @@ path = "\\TreeData.csv"
 #
 # ---------------------------------------------------
 
-
 stl_path = f"\\AirwayModel"
 
 # initialize variables for storing list of branch objects (branchList),
