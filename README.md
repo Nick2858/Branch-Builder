@@ -26,7 +26,7 @@ Before running the Python script, some settings must be adjusted. These settings
 
 <img src="Images/ChangeSettings.png" alt="drawing" width="400"/>
 
-## Step 4
+### Step 4
 After configuring these settings, the program can be run in Blender. 
 
 <img src="Images/runScript.png" alt="drawing" width="800"/>
