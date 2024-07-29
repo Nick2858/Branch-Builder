@@ -14,7 +14,7 @@ The above render was created from the generation stl files built by `blenderInte
 
   ### [`FullTreeDemo.stl`](Demo/FullTreeDemo.stl)
   
-  <a href= "https://github.com/Nick2858/Branch-Builder/blob/main/Demo/FullTreeDemo.stl" target="_blank"><img src="Images/gitSTLPreview.png" width="500px"></img></a>
+  <a href= "https://github.com/Nick2858/Branch-Builder/blob/main/Demo/FullTreeDemo.stl" target="_blank"><img src="Images/CompleteTreePreview.png" width="500px"></img></a>
 
   Click on the image above to view and interact with a decimated version of the complete Bronchial Tree
   
