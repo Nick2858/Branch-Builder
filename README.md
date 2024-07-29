@@ -59,7 +59,7 @@ After configuring these settings, the program can be run in Blender.
 <img src="Images/runScript.png" alt="drawing" width="800"/>
 
 ### Step 6: Check Completion
-Once the program has finished running, a completion message will be printed in the console. An example is shown below:
+Once the program has finished running, a completion message will be printed in the console. An example for a 15 branch network is shown below:
 
 <img src="Images/ConsoleMessage.png" alt="drawing" width="400"/>
 
