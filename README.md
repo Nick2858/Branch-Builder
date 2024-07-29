@@ -29,7 +29,7 @@ The above render was created from the generation stl files built by `blenderInte
 
 ### Step 1: Prepare CSV File
 
-The branches for the CSV File should be as follows, branch data for each branch occupies its row. The data should be in exactly this order:
+The layout of the CSV File is as follows, data for each branch occupies a row. The data should be in exactly this order:
 
 Branch ID | Parent Node ID | Child Node ID | Generation Number | Length | Volume | Lobe | Segment | X1 | Y1 | Z1 | X2 | Y2 | Z2  
 ----------|-----------|----------|-------------------|--------|--------|------|---------|----|----|----|----|----|----
