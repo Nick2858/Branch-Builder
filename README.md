@@ -17,10 +17,10 @@ The first step in setting up this program to build a branch network is downloadi
 
 
 ### Step 2
-The next step is to toggle on the Window Console in Blender. This will allow you to monitor the program's progress, which will print information about what steps it's on while running. Blender does not respond when scripts are running, this is the only way to monitor that the program is working.
+The next step is to toggle on the System Console in Blender. This will allow you to monitor the program's progress, which will print information about what steps it's on while running. Blender does not respond when scripts are running, this is the only way to monitor that the program is working.
 
 
-<img src="Images/ConsoleSetup.png" alt="drawing" width="800"/>
+<img src="Images/SetupConsole.png" alt="drawing" width="800"/>
 
 ### Step 3
 Before running the Python script, some settings must be adjusted. These settings can be found in the script and are displayed below. The `max_gen` variable holds an integer value of the maximum generation number the program will extract from the CSV file and build. The `path` variable holds a string value for the path to the CSV file containing the network data. The `stl_path` variable holds the string value for the path where you wish for the STL files to be exported.
