@@ -31,10 +31,10 @@ The above render was created from the generation stl files built by `blenderInte
 
 The branches for the CSV File should be as follows, branch data for each branch occupies its row. The data should be in exactly this order:
 
-Branch ID | Parent ID | Child ID | Generation Number | Length | Volume | Lobe | Segment | X1 | Y1 | Z1 | X2 | Y2 | Z2  
+Branch ID | Parent Node ID | Child Node ID | Generation Number | Length | Volume | Lobe | Segment | X1 | Y1 | Z1 | X2 | Y2 | Z2  
 ----------|-----------|----------|-------------------|--------|--------|------|---------|----|----|----|----|----|----
-Id of branch| ID of parent node | ID of child node | int | float | float | int | int | X Coord of parent node | Y Coord of parent node | Z Coord of parent node | X Coord of child node | Y Coord of child node | Z Coord of child node
 
+Where X1, Y1, Z1 are the coordinates of the parent node and X2, Y2, Z2 are the coordinates of the child node. These nodes make up the end points of the cylinder/branch. The sphere is created at the location of the child node.
 
 ### Step 2: Open Script in Blender
 The first step in setting up this program to build a branch network is downloading the `blenderInterface.py` code. Once it's been downloaded, it can be opened in Blender. Go to **Scripting** and press **Open**. This will allow you to open the `blenderInterface.py` script in Blender. 
