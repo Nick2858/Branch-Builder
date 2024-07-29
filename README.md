@@ -33,7 +33,7 @@ The branches for the CSV File should be as follows, branch data for each branch 
 
 Branch ID | Parent ID | Child ID | Generation Number | Length | Volume | Lobe | Segment | X1 | Y1 | Z1 | X2 | Y2 | Z2  
 ----------|-----------|----------|-------------------|--------|--------|------|---------|----|----|----|----|----|----
-Id of the Branch| ID of node connecting the branch to its the parent branch | ID of the node connecting the branch to its child branch | Integer Number | Float | Float | Integer Number | Integer Number | X Coord of parent node | Y Coord of parent node | Z Coord of parent node | X Coord of child node | Y Coord of child node | Z Coord of child node
+Id of branch| ID of parent node | ID of child node | int | float | float | int | int | X Coord of parent node | Y Coord of parent node | Z Coord of parent node | X Coord of child node | Y Coord of child node | Z Coord of child node
 
 
 ### Step 2: Open Script in Blender
