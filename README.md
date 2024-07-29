@@ -31,7 +31,7 @@ After configuring these settings, the program can be run in Blender.
 
 <img src="Images/runScript.png" alt="drawing" width="800"/>
 
-
+### Step 5: Check Completion
 Once the program has finished running, a completion message will be printed in the console.
 
 
