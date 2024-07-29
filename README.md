@@ -12,7 +12,7 @@ The above render was created from the generation stl files built by `blenderInte
 
 <div align="center" width="300px">
   
-  [<img src="Images/gitSTLPreview.png" width="500px" target="_blank"></img>](https://github.com/Nick2858/Branch-Builder/blob/main/Demo/FullTreeDemo.stl)
+  <a href= "https://github.com/Nick2858/Branch-Builder/blob/main/Demo/FullTreeDemo.stl" target="_blank"><img src="Images/gitSTLPreview.png" width="500px" target="_blank"></img></a>
 
 </div>
 View and interact with a decimated version of the complete Bronchial Tree in [Demo/FullTreeDemo.stl](Demo/FullTreeDemo.stl)
