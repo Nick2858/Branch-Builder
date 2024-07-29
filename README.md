@@ -19,7 +19,6 @@ The first step in setting up this program to build a branch network is downloadi
 ### Step 2
 The next step is to toggle on the System Console in Blender. This will allow you to monitor the program's progress, which will print information about what steps it's on while running. Blender does not respond when scripts are running, this is the only way to monitor that the program is working.
 
-
 <img src="Images/SetupConsole.png" alt="drawing" width="800"/>
 
 ### Step 3
@@ -29,6 +28,8 @@ Before running the Python script, some settings must be adjusted. These settings
 
 ## Step 4
 After configuring these settings, the program can be run in Blender. 
+
+<img src="Images/runScript.png" alt="drawing" width="800"/>
 
 Once the program has finished running, a completion message will be printed in the console.
 
