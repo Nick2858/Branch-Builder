@@ -27,29 +27,38 @@ The above render was created from the generation stl files built by `blenderInte
 
 ## Setup
 
-### Step 1: Open Script in Blender
+### Step 1: Prepare CSV File
+
+The branches for the CSV File should be as follows, branch data for each branch occupies its row. The data should be in exactly this order:
+
+Branch ID | Parent ID | Child ID | Generation Number | Length | Volume | Lobe | Segment | X1 | Y1 | Z1 | X2 | Y2 | Z2  
+----------|-----------|----------|-------------------|--------|--------|------|---------|----|----|----|----|----|----
+Id of the Branch| ID of node connecting the branch to its the parent branch | ID of the node connecting the branch to its child branch | Integer Number | Float | Float | Integer Number | Integer Number | X Coord of parent node | Y Coord of parent node | Z Coord of parent node | X Coord of child node | Y Coord of child node | Z Coord of child node
+
+
+### Step 2: Open Script in Blender
 The first step in setting up this program to build a branch network is downloading the `blenderInterface.py` code. Once it's been downloaded, it can be opened in Blender. Go to **Scripting** and press **Open**. This will allow you to open the `blenderInterface.py` script in Blender. 
 
 <img src="Images/OpenScript.png" alt="drawing" width="800"/>
 
 All default objects in the collection should be deleted before running the program. These objects are crossed out in the image below.
 
-### Step 2: Toggle On System Console
+### Step 3: Toggle On System Console
 The next step is to toggle on the System Console in Blender. This will allow you to monitor the program's progress, which will print information about what steps it's on while running. Blender does not respond when scripts are running, this is the only way to monitor whether the program is working.
 
 <img src="Images/SetupConsole.png" alt="drawing" width="800"/>
 
-### Step 3: Configure Settings
+### Step 4: Configure Settings
 Before running the Python script, some settings must be adjusted. These settings can be found in the script and are displayed below. The `max_gen` variable holds an integer value of the maximum generation number the program will extract from the CSV file and build. The `path` variable holds a string value for the path to the CSV file containing the network data. The `stl_path` variable holds the string value for the path where you wish for the STL files to be exported.
 
 <img src="Images/ChangeSettings.png" alt="drawing" width="400"/>
 
-### Step 4: Run Script
+### Step 5: Run Script
 After configuring these settings, the program can be run in Blender. 
 
 <img src="Images/runScript.png" alt="drawing" width="800"/>
 
-### Step 5: Check Completion
+### Step 6: Check Completion
 Once the program has finished running, a completion message will be printed in the console. An example is shown below:
 
 <img src="Images/ConsoleMessage.png" alt="drawing" width="400"/>
