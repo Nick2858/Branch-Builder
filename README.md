@@ -2,8 +2,8 @@
 
 This repository contains the code for a Blender script that creates hollow branching network objects for use as geometries in CFD. It works by reading a CSV file of the branch data. Each branch is represented by a row in the CSV file. The model approximates branches as straight, hollow, cylinders with hollow spheres at each bifurcation point and the ends of terminal branches. The code was made to work with Blender 4.2, other versions may not be compatible.
 
+## Demo Airway Model
 <div align="center" margin-top = "">
-  <h2> Demo Airway Model</h2>
   <img src="Images/buildGenAnimation.gif" alt="drawing" width="500"/>
   <p>Rendering of 17 Generation Digital Reference Model of the Human Bronchial Tree from Schmidt et al 2004</p>
 </div>
