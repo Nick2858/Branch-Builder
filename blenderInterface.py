@@ -51,10 +51,14 @@ class Branch:
         x2,y2,z2 are the coordinates of the succID node
         """
 
-        self.id, self.parentID, self.childID, self.generation, self.length, self.volume, self.lobe, self.segment = rowData[
-                                                                                                                :8]
-        self.xyz1 = rowData[8:11]
-        self.xyz2 = rowData[11:14]
+        self.id = int(rowData[0])
+        self.generation = int(rowData[1])
+        self.lobe = int(rowData[2])
+        self.radius = float(rowData[3])
+        self.xyz1 = rowData[4:7]
+        self.xyz2 = rowData[7:]
+        self.parentID = f"{self.xyz1}"
+        self.childID = f"{self.xyz2}"
 
         # location is center of the cylinder, thus we calculate the average of the previous and successive node coords
         self.location = [(self.xyz1[0] + self.xyz2[0]) / 2, (self.xyz1[1] + self.xyz2[1]) / 2,
@@ -66,7 +70,7 @@ class Branch:
              (self.xyz2[2] - self.xyz1[2])])
 
         # calculate radius of cylinder from volume and length
-        self.radius = math.sqrt(self.volume / (self.length * math.pi))
+        self.length = math.dist(self.xyz1, self.xyz2)
 
         # set rotation of cylinder using mathutils vector functionality to convert vec to angle
         up_axis = mathutils.Vector([0.0, 0.0, 1.0])
@@ -396,7 +400,7 @@ start = time.time()
 #
 # ---------------------------------------------------
 
-max_gen = 20
+max_gen = 2
 
 # --------------------IMPORTANT----------------------
 #
@@ -412,7 +416,7 @@ path = "\\TreeData.csv"
 #
 # ---------------------------------------------------
 
-stl_path = f"\\AirwayModel"
+stl_path = f"\\HumanAirwayModel"
 
 # initialize variables for storing list of branch objects (branchList),
 # and dictionary of objects at nodes (touchingBranches)
@@ -443,7 +447,7 @@ with open(path, "r", newline='') as data:
             rowData.append(float(elm))
 
         # check if branch is in generation range
-        if rowData[3] <= max_gen:
+        if rowData[1] <= max_gen:
             # initialize branch object using row data (data for one edge)
             b = Branch(rowData)
 
