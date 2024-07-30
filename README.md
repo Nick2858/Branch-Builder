@@ -8,7 +8,7 @@ This repository contains the code for a Blender script that creates hollow branc
   <p>Rendering of 17 Generation Model of the Human Bronchial Tree from Schmidt et al 2004 [1]</p>
 </div>
 
-The above render was created from the generation stl files built by `blenderInterface.py` Using human airway topological graph data from Schmidt et al 2004 [1] (accessible at https://simtk.org/projects/lungsim) we were able to extract data from the `Demo/Treefile.txt` into the CSV file `Demo/TreeData.csv` with the custom `Demo\TXTtoCSV.py` script. From there, the CSV file data could be imported into the `blenderInterface.py` file running on Blender's **scripting** tool to build the airway branching network.
+The above render was created from the generation stl files built by `blenderInterface.py` Using human airway topological graph data from Schmidt et al 2004 [1] (accessible at https://simtk.org/projects/lungsim) we were able to extract data from the `Treefile.txt` into the CSV file `TreeData.csv` with the custom `TXTtoCSV.py` script. From there, the CSV file data could be imported into the `blenderInterface.py` file running on Blender's **scripting** tool to build the airway branching network. Visit the `Demo` folder to view demo files.
 
 <div align="center" width="300px">
 
