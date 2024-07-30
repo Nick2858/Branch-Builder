@@ -34,7 +34,7 @@ The layout of the CSV File is as follows, data for each branch occupies a row. T
 Branch ID | Generation Number | Lobe Number | Radius | X1 | Y1 | Z1 | X2 | Y2 | Z2  
 ----------|-------------------|-------------|--------|----|----|----|----|----|----
 
-X1, Y1, Z1 are the coordinates of the first bifurcation (where the branch connects to its parent branch), and X2, Y2, Z2 are the coordinates of the second bifurcation (where the branch connects to its child branches). These nodes make up the endpoints of the cylinder/branch. The sphere is created at the X2,Y2,Z2 coordinates where the branch bifurcates into its child branches. 
+X1, Y1, Z1 are the start point coordinates of the branch (where the branch connects to its parent branch or the standpoint of the first branch), and X2, Y2, Z2 are the end point coordinates of the branch (where the branch connects to its child branches or the endpoints of terminal branches). These nodes make up the endpoints of the cylinder/branch. The sphere is created at the X2, Y2, Z2 coordinates where the branch bifurcates into its child branches. 
 
 ### Step 2: Open Script in Blender
 The first step in setting up this program to build a branch network is downloading the `blenderInterface.py` code. Once it's been downloaded, it can be opened in Blender. Go to **Scripting** and press **Open**. This will allow you to open the `blenderInterface.py` script in Blender. 
