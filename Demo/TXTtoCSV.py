@@ -11,7 +11,7 @@ import math
 #
 #---------------------------------------------------
 
-path = 'C:\\Users\\nichk\\3DObjConverter\\Treefile.txt'
+path = '\\Treefile.txt'
 
 #Open txt file and save data to info variable
 with open(path, 'r') as data:
