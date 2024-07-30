@@ -1,7 +1,9 @@
 import networkx as nx
+import pandas
 import pandas as pd
+import math
 
-#This script was used to convert the data in Treefile.txt into a CSV file which could be read by blenderInterface.py
+
 
 #--------------------IMPORTANT----------------------
 #
@@ -9,7 +11,7 @@ import pandas as pd
 #
 #---------------------------------------------------
 
-path = '/Treefile.txt'
+path = 'C:\\Users\\nichk\\3DObjConverter\\Treefile.txt'
 
 #Open txt file and save data to info variable
 with open(path, 'r') as data:
@@ -66,17 +68,20 @@ for line in range(len(info)):
 df = nx.to_pandas_edgelist(bNet, source="predID", target="succID")
 
 #sort dataframe by id and set index to id
-df = df.sort_values(by=["id"], ascending=True)
+df = df.sort_values(by=["generation"], ascending=True)
 df = df.set_index(["id"])
 
+#Find radius of branches from volume and length
+df.loc[:, "radius"] = (df.loc[:,"volume"] / ( math.pi * df.loc[:, "length"]))**0.5
+
 #change order of dataframe columns
-df =df[["predID", "succID", "generation", "length", "volume", "lobe", "segment", "x1", "y1", "z1", "x2", "y2", "z2"]]
+df =df[[ "generation", "lobe", "radius", "x1", "y1", "z1", "x2", "y2", "z2"]]
 
 #select which generations to export or select which lobes to export
 df2 = df.loc[(df.loc[:, "generation"] >= 0) & (df.loc[:, "generation"] <= 20), :]
 #df2 = df.loc[(df.loc[:, "lobe"] >= 0) & (df.loc[:, "lobe"] <= 4), :]
 
 #export csv file of branch network/tree data
-df2.to_csv("TreeData.csv", index=True)
+df2.to_csv("TreeData2.csv", index=True)
 
 
