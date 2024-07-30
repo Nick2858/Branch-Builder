@@ -82,6 +82,6 @@ df2 = df.loc[(df.loc[:, "generation"] >= 0) & (df.loc[:, "generation"] <= 20), :
 #df2 = df.loc[(df.loc[:, "lobe"] >= 0) & (df.loc[:, "lobe"] <= 4), :]
 
 #export csv file of branch network/tree data
-df2.to_csv("TreeData2.csv", index=True)
+df2.to_csv("TreeData.csv", index=True)
 
 
