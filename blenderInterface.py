@@ -103,8 +103,8 @@ class Branch:
         """
         # create sphere object in blender using initialized parameters
         # each branch is the parent to the sphere/node at it's successive node location
-        bpy.ops.mesh.primitive_uv_sphere_add(radius=self.radius, enter_editmode=False, align='WORLD',
-                                             location=(self.xyz2), scale=(1, 1, 1), rotation=self.euler)
+        bpy.ops.mesh.primitive_uv_sphere_add(radius=self.sphere_radius, enter_editmode=False, align='WORLD',
+                                             location=(self.xyz2), scale=(1, 1, 1), rotation=self.sphere_euler)
 
         # assign sphere object to Branch object and name it based on it's node (s - for sphere) id.
         self.sphere = bpy.context.active_object
@@ -140,9 +140,10 @@ class Branch:
         #of the branch
         if parentConnection:
             parentConnection.make_branch()
-            parentConnection.make_sphere()
-            carver(self.cylinder, parentConnection.sphere)
             carver(self.cylinder, parentConnection.cylinder)
+            if self.radius != parentConnection.sphere_radius:
+                parentConnection.make_sphere()
+                carver(self.cylinder, parentConnection.sphere)                
 
         #For the sibling connection, the cylinders of both branches must not overlap.
         if siblingConnection:
@@ -176,13 +177,18 @@ class Branch:
         carver(self.sphere, self.hollow_branch)
 
         # Build replica sphere with smaller radius assigned to self.hollow_sphere
-        bpy.ops.mesh.primitive_uv_sphere_add(radius=self.radius - self.hollow_rad, enter_editmode=False, align='WORLD',
-                                             location=(self.xyz2), scale=(1, 1, 1), rotation=self.euler)
+        bpy.ops.mesh.primitive_uv_sphere_add(radius=self.sphere_radius - self.hollow_rad, enter_editmode=False, align='WORLD',
+                                             location=(self.xyz2), scale=(1, 1, 1), rotation=self.sphere_euler)
         self.hollow_sphere = bpy.context.active_object
 
         # carve the hollow_sphere object out of the sphere using the carver function
-        carver(self.sphere, self.hollow_sphere)
-
+        if self.sphere_radius != self.radius:
+            carver(self.sphere, self.hollow_sphere, False)
+            carver(self.cylinder, self.hollow_sphere)
+        else:
+            carver(self.sphere, self.hollow_sphere)
+            
+                   
     def finalize(self):
         """
         This method is used to finalize the branch.
@@ -394,29 +400,33 @@ def groupData():
 #Start the timer for when the code starts running
 start = time.time()
 
-# --------------------IMPORTANT----------------------
-#
-# set maximum generation number to create in blender
-#
-# ---------------------------------------------------
 
-max_gen = 2
-
-# --------------------IMPORTANT----------------------
+#--------------------IMPORTANT----------------------
 #
-# set csv file path to extract branch network data
+#set maximum generation number to create in blender
 #
-# ---------------------------------------------------
+#---------------------------------------------------
 
-path = "\\TreeData.csv"
+max_gen = 20
 
-# --------------------IMPORTANT----------------------
+
+#--------------------IMPORTANT----------------------
 #
-# set STL file export location
+#set csv file path to extract branch network data
 #
-# ---------------------------------------------------
+#---------------------------------------------------
 
-stl_path = f"\\HumanAirwayModel"
+path = "\\NetData.csv"
+
+#--------------------IMPORTANT----------------------
+#
+#set STL file export location
+#
+#---------------------------------------------------
+
+
+stl_path = f"\\AirwayModel"
+
 
 # initialize variables for storing list of branch objects (branchList),
 # and dictionary of objects at nodes (touchingBranches)
@@ -457,7 +467,22 @@ with open(path, "r", newline='') as data:
 #Get number of branches in branch list
 num = len(branchList)
 
-#for branch in list, build the branch file
+#for branch in list, ensure sphere/node is as large as largest branch
+for b in branchList:
+    b.sphere_radius = b.radius
+    b.sphere_euler = b.euler
+
+    for b2 in branchList:
+        if b2.id != b.id:
+            
+            #Find branches which connect as children of the branch.
+            if b2.parentID == b.childID: #The parentID of a branch is the childID of the parent branch.
+                if b2.radius > b.sphere_radius:
+                    b.sphere_radius = b2.radius
+                    b.sphere_euler = b2.euler
+                
+
+
 iter = 1
 for b in branchList:
     print(f"--------BUILDING BRANCH ID:{int(b.id)} ({iter}/{num})--------")
@@ -487,3 +512,5 @@ print(f"COMPLETED EXPORTING {num} BRANCHES IN: {stopwatch3}")
 
 #print full code runtime
 print(f"CODE FINISHED IN: {stopwatch2}\n\n")
+
+
