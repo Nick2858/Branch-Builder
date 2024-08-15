@@ -7,15 +7,15 @@ import csv
 def get_generation(segments, generation = 1):
     """
     (list, int) --> None
-    
-    This is a recursive function which takes a list of parent branches and finds all the child branches that connect 
-    to it and assigns them with their respective generation number based on the generation number of their parents. This 
+
+    This is a recursive function which takes a list of parent branches and finds all the child branches that connect
+    to it and assigns them with their respective generation number based on the generation number of their parents. This
     function runs until there are no more connecting child branches.
     """
     print(f"Finding generation {generation}")
 
     print("Getting start and end points")
-    
+
     #Get all start and end coordinates of all branches in the segment list
     start_data = list(vessel_data.loc[segments, "NodeData1"].unique())
     end_data = list(vessel_data.loc[segments, "NodeData2"].unique())
@@ -27,26 +27,26 @@ def get_generation(segments, generation = 1):
     print("Finding new generation")
 
     connection_list = []
-    
-    #Find all branches connected to the start and end coords which aren't assigned a generation number 
+
+    #Find all branches connected to the start and end coords which aren't assigned a generation number
     connections = vessel_data.loc[(vessel_data.loc[:, "NodeData1"].isin(data)) & (vessel_data.loc[:,"BranchID"].isin(segments) == False) | (vessel_data.loc[:, "NodeData2"].isin(data)) & (vessel_data.loc[:,"BranchID"].isin(segments) == False) ,:]
     connection_list = list(connections.loc[:,"BranchID"])
 
     print("Adding generation value")
-    
+
     #if there are connections, run otherwise there are no connects and the recursive function will stop running
     if connection_list:
         #Assign the orientation of the first branch based on which coords its child branches connect to
         if generation  == 1 and (start_data in list(connections.loc[:,"NodeData1"]) or start_data in list(connections.loc[:,"NodeData2"])):
             vessel_data.loc[genZeroBranch, "Start1"] = True
-        
+
         #Assign generation number to child branches and assign orientation of branch using Start1 column value
         vessel_data.loc[connection_list, "Generation"] = generation
         vessel_data.loc[connection_list, "Start1"] = vessel_data.loc[connection_list,"NodeData2"].isin(data)
-        
+
         #Append new connections to the segment list
         segments.extend(connection_list)
-        
+
         #Run the function to find the next generation of branches
         get_generation(segments, generation + 1)
 
@@ -67,9 +67,18 @@ path = "AirwaySegmentData.csv"
 
 genZeroBranch = 57
 
+#--------------------IMPORTANT----------------------
+#
+#Enter the name for the output CSV File
+#
+#---------------------------------------------------
 
-genZeroBranch -= 1 #Column number - 1
+outputName = "NetData.csv"
 
+
+
+#Column number - 1 because the CSV index starts at 1 but pandas dataframe index starts at 0
+genZeroBranch -= 1 
 
 #Read CSV File
 vessel_data = pd.read_csv(path, header=None)
@@ -86,7 +95,7 @@ vessel_data.loc[:, "NodeData2"] = vessel_data.iloc[:,4].astype(str) + vessel_dat
 vessel_data.loc[:,"Generation"] = "NaN"
 vessel_data.loc[:, "Generation"].astype(float)
 
-#Initialize lobe number (the MATLAB Code doesn't give us information on lobe number but it is required for the 
+#Initialize lobe number (the MATLAB Code doesn't give us information on lobe number but it is required for the
 #Branch Builder tool)
 vessel_data.loc[:, "Lobe"] = 0
 
@@ -100,7 +109,7 @@ vessel_data.loc[genZeroBranch, "Generation"] = 0
 #Start calculating the generation number using the recursive gen_generation function
 get_generation([vessel_data.loc[genZeroBranch, "BranchID"], ], 1)
 
-#Reorder the dataframe 
+#Reorder the dataframe
 vessel_data = vessel_data[["Generation", "Lobe", "Radius", "X1", "Y1", "Z1", "X2", "Y2", "Z2", "Start1"]]
 
 
@@ -130,4 +139,4 @@ vessel_data = vessel_data.sort_values(by="Generation", ascending=True)
 print("Exporting to csv file")
 
 #Export dataframe to CSV File
-vessel_data.to_csv("NetData.csv")
+vessel_data.to_csv(outputName)
