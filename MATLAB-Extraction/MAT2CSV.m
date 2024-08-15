@@ -1,3 +1,7 @@
+%Formats the net cell into a CSV File which can be then used to calculate
+%generation numbers build a geometry for CFD
+
+function MAT2CSV(net, sizIm, filename)
 %Get radius values from net cell by dividing diameter values by 2
 radii = cell2mat(net(:,3))./2;
 
@@ -64,7 +68,7 @@ end
 name = append(filename,'.csv');
 
 writematrix(final_table,name);
-
+end
 %Function that converts a 1D coordinate into 3D cartesian coordinates using
 %the image size.
 function XYZ = getCoordinates(multcoords, sizIm)
